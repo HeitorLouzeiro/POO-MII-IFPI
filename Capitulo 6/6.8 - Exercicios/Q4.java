@@ -83,11 +83,10 @@ public class Q4 {
     public static void main(String[] args) {
 
         Funcionario funcionario = new Funcionario();
+        System.out.println(funcionario.getNome());
+
         funcionario.setSalario(1000);
         System.out.println(funcionario.getSalario());
-        
-        funcionario.setNome("João");
-        System.out.println(funcionario.getNome());
         
         funcionario.setDepartamento("TI");
         System.out.println(funcionario.getDepartamento());
@@ -97,6 +96,24 @@ public class Q4 {
 
         funcionario.setEstaNaEmpresa(true);
         System.out.println(funcionario.getEstaNaEmpresa());
+        
+        String space = "-".repeat(50);
+        System.out.println(space); 
+        
+        Funcionario funcionario1 = new Funcionario("Heitor");
+        System.out.println(funcionario1.getNome());
+
+        funcionario1.setSalario(1000);
+        System.out.println(funcionario1.getSalario());
+        
+        funcionario1.setDepartamento("TI");
+        System.out.println(funcionario1.getDepartamento());
+
+        funcionario1.setRg("123456789");
+        System.out.println(funcionario1.getRg());
+
+        funcionario1.setEstaNaEmpresa(true);
+        System.out.println(funcionario1.getEstaNaEmpresa());
 
         
     }

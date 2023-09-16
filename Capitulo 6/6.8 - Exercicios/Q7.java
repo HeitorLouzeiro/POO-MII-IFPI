@@ -3,158 +3,92 @@ trutor o tamanho do array de Funcionario.
 Agora, com esse construtor, o que acontece se tentarmos dar new Empresa() sem passar argumento algum? 
 Por quê? */
 
-class space{
+class space {
     static String space = "-".repeat(50);
 }
 
-class Funcionario{
+class Funcionario {
     private String nome;
     private double salario;
-
     private int identificador;
-
     private static int identificadorFuncionario;
 
     public Funcionario() {
         // construtor sem argumentos
-
     }
 
-    /* Metodos get serve para retorna seu valor */
-    public double getSalario() { 
+    /* Metodos get serve para retornar seu valor */
+    public double getSalario() {
         return this.salario;
     }
+
     /* Metodos set serve para definir ou alterar seu valor */
-    public void setSalario(double salario) { 
+    public void setSalario(double salario) {
         this.salario = salario;
     }
 
-    public String getNome(){
+    public String getNome() {
         return this.nome;
     }
 
-    public void setNome(String nome){
+    public void setNome(String nome) {
         this.nome = nome;
     }
 
-    public Funcionario(String nome){
+    public Funcionario(String nome) {
         this.nome = nome;
         this.identificador = identificadorFuncionario++;
     }
-    public int getIdentificador(){
+
+    public int getIdentificador() {
         return this.identificador;
     }
 }
 
-/* 6) (opcional) Crie os getters e setters da sua classe Empresa 
-e coloque seus atributos como private. 
-Lembre-se de que não necessariamente todos os atributos devem ter getters e setters.
-Por exemplo, na classe Empresa, seria interessante ter um setter e getter para a sua array de funcionários? 
-Não seria mais interessante ter um método como este?
-    class Empresa {
-        ... //
-        Funcionario getFuncionario(int posicao) { 
-        return this.funcionarios[posicao];
-        }
-    } 
-*/
-class space{
-    static String space = "-".repeat(50);
-}
-class Funcionario{
-    private String nome;
-    private double salario;
-
-    private int identificador;
-
-    private static int identificadorFuncionario;
-
-    public Funcionario() {
-        // construtor sem argumentos
-
-    }
-
-    /* Metodos get serve para retorna seu valor */
-    public double getSalario() { 
-        return this.salario;
-    }
-    /* Metodos set serve para definir ou alterar seu valor */
-    public void setSalario(double salario) { 
-        this.salario = salario;
-    }
-
-    public String getNome(){
-        return this.nome;
-    }
-
-    public void setNome(String nome){
-        this.nome = nome;
-    }
-
-    public Funcionario(String nome){
-        this.nome = nome;
-        this.identificador = identificadorFuncionario++;
-    }
-    public int getIdentificador(){
-        return this.identificador;
-    }
-}
-
-class Empresa{
+class Empresa {
     Funcionario[] funcionarios;
 
-    Funcionario getFuncionario(int posicao) { 
+    public Empresa(int numFuncionarios) {
+        funcionarios = new Funcionario[numFuncionarios];
+    }
+
+    // Construtor sem argumentos para permitir a criação de uma instância sem argumentos
+    public Empresa() {
+        // Tamanho padrão do array de funcionários: 10
+        funcionarios = new Funcionario[10];
+    }
+
+    public Funcionario getFuncionario(int posicao) {
         return this.funcionarios[posicao];
     }
 
-    void adiciona(Funcionario funcionarios){
-        for(int i = 0; i < this.funcionarios.length; i++){
-            if(this.funcionarios[i] == null){
-                this.funcionarios[i] = funcionarios;
-                System.out.println("Funcionario adicionado com sucesso!");
-                System.out.println("Posicao: " + i);
-                System.out.println(space.space);
-                break;
-            }
-        }
+    public void adicionarFuncionario(Funcionario funcionario, int posicao) {
+        this.funcionarios[posicao] = funcionario;
     }
-
-    void mostraEmpregados(){
-        System.out.println("Lista de Funcionarios");
-        for(int i = 0; i < this.funcionarios.length; i++){
-            if(this.funcionarios[i] != null){
-
-                System.out.println("Funcionario na posicao: " + i);
-                System.out.println("R$" + this.funcionarios[i].getNome());
-                System.out.println("R$" + this.funcionarios[i].getSalario());
-                System.out.println(space.space);
-            }
-        }
-    }
-
-
-
 }
 
 public class Q7 {
     public static void main(String[] args) {
+        // Crie uma instância de Empresa sem passar argumentos
+        Empresa empresaSemArgumentos = new Empresa();
 
-        Funcionario funcionario = new Funcionario();
-        Empresa empresa = new Empresa();
-        empresa.funcionarios = new Funcionario[10];
+        // Agora você pode adicionar funcionários à empresa, se necessário
+        Funcionario funcionario1 = new Funcionario();
+        funcionario1.setSalario(1000.0);
 
-        funcionario.setNome("Joao");
-        funcionario.setSalario(1000);
-        empresa.adiciona(funcionario);
+        Funcionario funcionario2 = new Funcionario();
+        funcionario2.setSalario(1700.0);
 
+        empresaSemArgumentos.adicionarFuncionario(funcionario1, 0);
+        empresaSemArgumentos.adicionarFuncionario(funcionario2, 1);
 
-        funcionario.setNome("Maria");
-        funcionario.setSalario(1700);
+        // Acesse os funcionários da empresa sem argumentos
+        Funcionario funcionarioDaEmpresa1 = empresaSemArgumentos.getFuncionario(0);
+        Funcionario funcionarioDaEmpresa2 = empresaSemArgumentos.getFuncionario(1);
 
-        empresa.adiciona(funcionario);
-        
-        empresa.mostraEmpregados();
-
-        
+        // Exemplo de uso:
+        System.out.println("Nome do funcionário 1: " + funcionarioDaEmpresa1.getNome());
+        System.out.println("Salário do funcionário 2: " + funcionarioDaEmpresa2.getSalario());
     }
 }
+

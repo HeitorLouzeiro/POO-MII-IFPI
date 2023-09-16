@@ -14,12 +14,17 @@ class Funcionario{
     private int identificador;
 
     private static int identificadorFuncionario;
-
+    
     public Funcionario() {
         // construtor sem argumentos
-
+        identificador = identificadorFuncionario++;
+        
     }
-
+    public Funcionario(String nome){
+        this.nome = nome;
+        this.identificador = identificadorFuncionario++;
+    }
+    
     /* Metodos get serve para retorna seu valor */
     public double getSalario() { 
         return this.salario;
@@ -61,10 +66,6 @@ class Funcionario{
         this.estaNaEmpresa = estaNaEmpresa;
     }
 
-    public Funcionario(String nome){
-        this.nome = nome;
-        this.identificador = identificadorFuncionario++;
-    }
     public int getIdentificador(){
         return this.identificador;
     }
@@ -73,21 +74,24 @@ class Funcionario{
 public class Q5 {
     public static void main(String[] args) {
 
-        Funcionario funcionario = new Funcionario();
+        Funcionario funcionario = new Funcionario("Heitor");
+        System.out.println(funcionario.getNome());
+
         funcionario.setSalario(1000);
         System.out.println(funcionario.getSalario());
-        
-        funcionario.setNome("João");
-        System.out.println(funcionario.getNome());
-        
-        funcionario.setDepartamento("TI");
-        System.out.println(funcionario.getDepartamento());
+        System.out.println("Identificador: " + funcionario.getIdentificador());
 
-        funcionario.setRg("123456789");
-        System.out.println(funcionario.getRg());
+        String space = "-".repeat(50);
+        System.out.println(space); 
 
-        funcionario.setEstaNaEmpresa(true);
-        System.out.println(funcionario.getEstaNaEmpresa());
+        Funcionario funcionario1 = new Funcionario("Carlos");
+        System.out.println(funcionario1.getNome());
+
+        funcionario1.setSalario(1000);
+        System.out.println(funcionario1.getSalario());
+        
+        System.out.println("Identificador: " + funcionario1.getIdentificador());
+
 
         
     }

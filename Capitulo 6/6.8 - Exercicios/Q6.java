@@ -10,9 +10,6 @@ Não seria mais interessante ter um método como este?
         }
     } 
 */
-class space{
-    static String space = "-".repeat(50);
-}
 class Funcionario{
     private String nome;
     private double salario;
@@ -23,6 +20,7 @@ class Funcionario{
 
     public Funcionario() {
         // construtor sem argumentos
+        identificador = identificadorFuncionario++;
 
     }
 
@@ -47,38 +45,18 @@ class Funcionario{
         this.nome = nome;
         this.identificador = identificadorFuncionario++;
     }
+
     public int getIdentificador(){
         return this.identificador;
     }
 }
 
 class Empresa {
-    String nome;
-    String cnpj;
     Funcionario[] funcionarios;
 
 
-    /* Question 2 */
-    int indice = 0;
-    void adiciona(Funcionario funcionario) {
-        this.funcionarios[this.indice] = funcionario;
-        System.out.println("Funcionario adicionado com sucesso!");
-        System.out.println("Posicao: " + this.indice);
-        this.indice++;
-        System.out.println(space.space);
-
-    }
-    /* Question 4 */
-    void mostraEmpregados(){
-        for(int i = 0; i < this.indice; i++){
-            if (this.funcionarios != null){
-                System.out.println("Funcionario na posicao: " + i);
-                System.out.println("Salário: " + this.funcionarios[i].salario);
-
-                System.out.println(space.space);
-            }
-            
-        }
+    Funcionario getFuncionario(int posicao) { 
+        return this.funcionarios[posicao];
     }
 
 }
@@ -87,13 +65,26 @@ public class Q6 {
     public static void main(String[] args) {
 
         Funcionario funcionario = new Funcionario();
-        new Empresa();
 
-        funcionario.setSalario(1000);
-        System.out.println(funcionario.getSalario());
-        /* salario has private access in Funcionario 
-         * O atributo salario é privado, ou seja, só pode ser acessado dentro da classe Funcionario.
-        */
+        funcionario.setNome("João");
+        funcionario.setSalario(1000.0);
+
+        System.out.println("Nome: " + funcionario.getNome());
+        System.out.println("Salario: " + funcionario.getSalario());
+        System.out.println("Identificador: " + funcionario.getIdentificador());
+
+        String space = "-".repeat(50);
+        System.out.println(space); // separador
+
+        Funcionario funcionario2 = new Funcionario();
+        funcionario2.setNome("Maria");
+        funcionario2.setSalario(1700.0);
+
+        System.out.println("Nome: " + funcionario2.getNome());
+        System.out.println("Salario: " + funcionario2.getSalario());
+        System.out.println("Identificador: " + funcionario2.getIdentificador());
+
+        
 
     }
 }
