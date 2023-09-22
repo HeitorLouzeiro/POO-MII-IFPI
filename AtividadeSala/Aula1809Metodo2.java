@@ -1,4 +1,4 @@
-// EXERCICIO 3 - AULA 18/09
+ // EXERCICIO 3 - AULA 18/09
 /* 
 1 - Crie um metodo para demitir um funcionario de uma empresa.
 Lembre-se a demissão de um funcionario impacta em alguns atributos da empresa.
@@ -9,12 +9,18 @@ Lembre-se a demissão de um funcionario impacta em alguns atributos da empresa.
 essa idenização corresponde a 0,001% do salario do funcionario para cada dia trabalhado.
 Crie um metodo que calcule essa idenização e imprima o valor da idenização no momento da demissão. */
 
-class Aula1809{
+/* 3. Crie um metodo que imprima todas as fichas dos funcionarios cadastrados na empresa.
+Cada ficha deve mostrar os dados (atributos) dos funcionario. */
+
+/* 4- Crie um metodo que dê um aumento salarial para todos os funcionarios da empresa.Ex: 10% de aumento. */
+
+
+class Aula1809Metodo2{
 	public static void main(String[] args){
 		Empresa empresa1 = new Empresa("IFPI", "Promover uma educação de excelência direcionada às demandas sociais.");
 
-		empresa1.adimiteNovoFuncionario("Jurandir", 5000, new Data(26,8,2014));
-		empresa1.adimiteNovoFuncionario("Felipinho", 6000, new Data(26,8,2014));
+		empresa1.adimiteNovoFuncionario("Jurandir", 5000, new Data(01,01,2022));
+		empresa1.adimiteNovoFuncionario("Felipinho", 6000, new Data(17,8,2014));
 		empresa1.adimiteNovoFuncionario("Tulio", 3000, new Data(02,02,2023));
 
 		System.out.println("O "+empresa1.getNome()+" tem "+empresa1.getContadorDeFuncionarios()+" funcionário(s) e uma folha salarial de R$ "+empresa1.getFolhaSalarial()+".");
@@ -23,7 +29,11 @@ class Aula1809{
 		System.out.println(empresa1.getFuncionario(1).getNome()+" tem a matricula = "+empresa1.getFuncionario(1).getIdentificador());
 		System.out.println(empresa1.getFuncionario(2).getNome()+" tem a matricula = "+empresa1.getFuncionario(2).getIdentificador());
 		
-        empresa1.demiteFuncionario(0);
+        empresa1.mostrarFuncionario();
+        empresa1.aumentoSalario(10);
+        empresa1.demiteFuncionario(0, new Data(22,03,2022));
+        empresa1.mostrarFuncionario();
+
 	}
 
 }
@@ -44,22 +54,97 @@ class Empresa{
 		this.listaDeFuncionarios = new Funcionario[100];
 	}
 
+    public void mostrarFuncionario(){
+        for(int i = 0; i <= contadorDeFuncionarios; i++){
+            if (listaDeFuncionarios[i] != null) {
+                
+                System.out.println("Identificador: " + listaDeFuncionarios[i].getIdentificador());
+                System.out.println("Nome: " + listaDeFuncionarios[i].getNome());
+                System.out.println("Salário: " + listaDeFuncionarios[i].getSalario());
+                System.out.println("Data de entrada: " + listaDeFuncionarios[i].getDataDeEntrada().getData());
+                
+                if(listaDeFuncionarios[i].getDataDeSaida() == null){
+                    System.out.println("Data de saída: Não demitido");
+                }else{
+                    System.out.println("Data de saída: " + listaDeFuncionarios[i].getDataDeSaida().getData());
+                }
+            }
+
+        }
+    }
+
 	public void adimiteNovoFuncionario(String nome, double salario, Data dataDeEntrada){
 		this.listaDeFuncionarios[contadorDeFuncionarios] = new Funcionario(nome, salario, dataDeEntrada);
 		folhaSalarial = folhaSalarial + salario;
 		incrementaContadorDeFuncionarios();
 	}
 
-    public void demiteFuncionario(int id){
-        this.indenizacao = 0.001 * listaDeFuncionarios[id].getSalario() * listaDeFuncionarios[id].getIdentificador();
-        this.folhaSalarial = this.folhaSalarial - listaDeFuncionarios[id].getSalario();
+	public void demiteFuncionario(int id, Data dataDeSaida) {
+		Funcionario funcionario = listaDeFuncionarios[id];
+		Data dataEntrada = funcionario.getDataDeEntrada();
 
-        System.out.println("O funcionário "+listaDeFuncionarios[id].getNome()+" foi demitido e receberá uma indenização de R$ "+indenizacao+".");
-        System.out.println("A folha salarial da empresa "+this.nome+" agora é de R$ "+this.folhaSalarial+".");
+		int diasTrabalhados = calculaDias(dataEntrada, dataDeSaida);
+		double indenizacao = funcionario.getSalario() * (diasTrabalhados * 0.001);
+
+		System.out.println("O funcionário " + funcionario.getNome() + " foi demitido e receberá uma indenização de R$ " + indenizacao + ".");
+		
+		funcionario.setDataDeSaida(dataDeSaida); // Defina a data de saída após calcular a indenização
+		
+        // Se quiser remover o funcionário da lista, descomente a linha abaixo
+        /* listaDeFuncionarios[id] = null; */
+
         decrementaContadorDeFuncionarios();
+	}
 
-        System.out.print("Quantidades de funcionários: " + contadorDeFuncionarios);
+	/* Metodo 2 */
+	public int calculaDias(Data dataEntrada, Data dataSaida) {
+    int[] diasPorMes = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    
+    int diaEntrada = dataEntrada.getDia();
+    int mesEntrada = dataEntrada.getMes();
+    int anoEntrada = dataEntrada.getAno();
+
+    int diaSaida = dataSaida.getDia();
+    int mesSaida = dataSaida.getMes();
+    int anoSaida = dataSaida.getAno();
+
+    int totalDiasEntrada = diaEntrada;
+    int totalDiasSaida = diaSaida;
+
+    for (int i = 1; i < mesEntrada; i++) {
+        totalDiasEntrada += diasPorMes[i];
     }
+
+    for (int i = 1; i < mesSaida; i++) {
+        totalDiasSaida += diasPorMes[i];
+    }
+
+    // Adiciona os dias de anos completos
+    totalDiasEntrada += (anoEntrada - 1) * 365;
+    totalDiasSaida += (anoSaida - 1) * 365;
+
+    int diasTrabalhados = totalDiasSaida - totalDiasEntrada;
+    return diasTrabalhados;
+}
+
+
+
+    public void aumentoSalario(double aumento){
+        for(int i = 0; i < contadorDeFuncionarios; i++){
+
+/*             double valorPorcento = aumento/100;
+            double resultadoValor = listaDeFuncionarios[i].getSalario() * valorPorcento;
+            double resultadoFinal = listaDeFuncionarios[i].getSalario() + resultadoValor;
+            listaDeFuncionarios[i].setSalario(resultadoFinal);
+            System.out.println("O funcionário "+listaDeFuncionarios[i].getNome()+" recebeu um aumento de "+aumento+"% e seu novo salário é de R$ "+listaDeFuncionarios[i].getSalario()+".");
+ */
+            listaDeFuncionarios[i].setSalario(listaDeFuncionarios[i].getSalario() + (listaDeFuncionarios[i].getSalario() * (aumento/100)));
+            System.out.println("O funcionário "+listaDeFuncionarios[i].getNome()+" recebeu um aumento de "+aumento+"% e seu novo salário é de R$ "+listaDeFuncionarios[i].getSalario()+".");
+        }
+    }
+
+
+
 
 	private void incrementaContadorDeFuncionarios(){
 		contadorDeFuncionarios++;
@@ -155,6 +240,23 @@ class Data{
 		}
 
 	}
+
+    public String getData(){
+        return dia+"/"+mes+"/"+ano;
+    }
+
+    public int getDia(){
+        return dia;
+    }
+
+    public int getMes(){
+        return mes;
+    }
+
+    public int getAno(){
+        return ano;
+    }
+
 }
 
 
@@ -164,6 +266,7 @@ class Funcionario{
 	private String departamento;
 	private double salario;
 	private Data dataDeEntrada;
+    private Data dataDeSaida;
 	private String rg;
 	private boolean estaAtivo;
 	private static int contadorDeFuncionarios;
@@ -209,5 +312,17 @@ class Funcionario{
 	public static int getContadorDeFuncionarios(){
 		return contadorDeFuncionarios;
 	}
+
+    public Data getDataDeEntrada(){
+        return dataDeEntrada;
+    }
+
+    public Data getDataDeSaida(){
+        return dataDeSaida;
+    }
+
+    public void setDataDeSaida(Data dataDeSaida){
+        this.dataDeSaida = dataDeSaida;
+    }
 
 }
